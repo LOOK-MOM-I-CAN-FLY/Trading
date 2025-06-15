@@ -1,5 +1,6 @@
 # Trading Bot
 
+
 This repository contains an example of a modular cryptocurrency trading bot written in Python 3.11. It supports asynchronous data feeds via CCXT, basic indicator calculations, simple strategies, risk management, order execution, Telegram notifications and a CLI interface.
 
 The code is organized in the `bot` package with the following modules:

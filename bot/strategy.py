@@ -47,4 +47,5 @@ class EMARsiStrategy(Strategy):
             yield Signal(side="SELL", price=float(latest["close"]), symbol=self.symbol)
 
 
+
 __all__ = ["Signal", "Strategy", "EMARsiStrategy"]
