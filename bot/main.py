@@ -11,7 +11,7 @@ from .execution import CCXTExecution
 from .notifier import TelegramNotifier
 from .risk import PositionSizing
 from .settings import load_settings
-from .strategy import EMARsiStrategy, EMAScalpingStrategy, Signal
+from .strategy import EMARsiStrategy, Signal
 
 
 logging.basicConfig(level=logging.INFO)
@@ -34,7 +34,7 @@ def backtest(config: Path = Path("config.yml")) -> None:
     settings = load_settings(config)
     df = pd.DataFrame()  # placeholder: load your historical data here
     backtester = Backtester(df)
-    backtester.run(lambda s: EMAScalpingStrategy(s), settings.trading_pairs[0])
+    backtester.run(lambda s: EMARsiStrategy(s), settings.trading_pairs[0])
 
 
 @app.command()
@@ -51,7 +51,7 @@ def run_live(config: Path = Path("config.yml")) -> None:
     async def run() -> None:
         async for data in feed.subscribe(settings.trading_pairs[0]):
             df = pd.DataFrame([data])
-            strategy = EMAScalpingStrategy(settings.trading_pairs[0])
+            strategy = EMARsiStrategy(settings.trading_pairs[0])
             for signal in strategy.generate(df):
                 size = position.calculate_size(stop_distance=10)
                 await exec_client.create_order(signal.symbol, signal.side, size)

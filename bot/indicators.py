@@ -1,10 +1,4 @@
 import pandas as pd
-import numpy as np
-
-# pandas_ta on NumPy >=2 requires NaN constant
-if not hasattr(np, "NaN"):  # pragma: no cover - compatibility
-    np.NaN = np.nan
-
 import pandas_ta as ta
 
 

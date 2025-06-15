@@ -26,8 +26,6 @@ class Strategy:
 
 
 class EMARsiStrategy(Strategy):
-    """Generic EMA + RSI strategy used as an example."""
-
     def __init__(self, symbol: str, ema_fast: int = 12, ema_slow: int = 26, rsi_len: int = 14) -> None:
         super().__init__(symbol)
         self.ema_fast = ema_fast
@@ -49,44 +47,5 @@ class EMARsiStrategy(Strategy):
             yield Signal(side="SELL", price=float(latest["close"]), symbol=self.symbol)
 
 
-class EMAScalpingStrategy(Strategy):
-    """Scalping strategy based on a fast/slow EMA crossover with RSI filter.
 
-    Parameters tuned for 1-5 minute timeframes.
-    """
-
-    def __init__(self, symbol: str, ema_fast: int = 9, ema_slow: int = 21, rsi_len: int = 14) -> None:
-        super().__init__(symbol)
-        self.ema_fast = ema_fast
-        self.ema_slow = ema_slow
-        self.rsi_len = rsi_len
-
-    def generate(self, df: pd.DataFrame) -> Iterable[Signal]:
-        if len(df) < 2:
-            return []
-
-        df = df.copy()
-        df["ema_fast"] = ema(df["close"], self.ema_fast)
-        df["ema_slow"] = ema(df["close"], self.ema_slow)
-        df["rsi"] = rsi(df["close"], self.rsi_len)
-
-        latest = df.iloc[-1]
-        previous = df.iloc[-2]
-
-        crossed_up = previous["ema_fast"] <= previous["ema_slow"] and latest["ema_fast"] > latest["ema_slow"]
-        crossed_down = previous["ema_fast"] >= previous["ema_slow"] and latest["ema_fast"] < latest["ema_slow"]
-
-        if crossed_up and latest["rsi"] < 70:
-            logger.debug("Scalping buy signal generated")
-            yield Signal(side="BUY", price=float(latest["close"]), symbol=self.symbol)
-        elif crossed_down and latest["rsi"] > 30:
-            logger.debug("Scalping sell signal generated")
-            yield Signal(side="SELL", price=float(latest["close"]), symbol=self.symbol)
-
-
-__all__ = [
-    "Signal",
-    "Strategy",
-    "EMARsiStrategy",
-    "EMAScalpingStrategy",
-]
+__all__ = ["Signal", "Strategy", "EMARsiStrategy"]
