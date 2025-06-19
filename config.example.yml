@@ -1,0 +1,10 @@
+exchange:
+  name: binance
+  api_key: YOUR_API_KEY
+  api_secret: YOUR_API_SECRET
+trading_pairs:
+  - BTC/USDT
+risk_per_trade: 0.02
+leverage: 1
+telegram_token: YOUR_TELEGRAM_TOKEN
+telegram_chat_id: YOUR_TELEGRAM_CHAT_ID

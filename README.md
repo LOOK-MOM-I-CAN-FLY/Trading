@@ -1,7 +1,37 @@
 # Trading Bot
 
+This repository contains a minimal yet extendable cryptocurrency trading bot written in **Python&nbsp;3.11+**.  It focuses on scalping strategies for 1–5&nbsp;minute timeframes and includes all the building blocks required to send trade signals via Telegram or execute them through a connected exchange.
 
-This repository contains an example of a modular cryptocurrency trading bot written in Python 3.11. It supports asynchronous data feeds via CCXT, basic indicator calculations, simple strategies, risk management, order execution, Telegram notifications and a CLI interface.
+## Installation
+
+1. Clone the repository and create a virtual environment:
+
+   ```bash
+   git clone https://example.com/trading-bot.git
+   cd trading-bot
+   python3 -m venv .venv
+   source .venv/bin/activate
+   ```
+
+2. Install requirements:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. Copy `config.example.yml` to `config.yml` and fill in your API keys and Telegram chat details. Environment variables from a `.env` file override the values in the config.
+
+4. Display the available CLI commands:
+
+   ```bash
+   python -m bot.main --help
+   ```
+
+Use `python -m bot.main run-live` to start streaming data and receive signals in Telegram. Run `python -m bot.main backtest` once you have prepared historical data for analysis.
+
+## Disclaimer
+
+This project is provided for educational purposes only. Trading cryptocurrencies involves significant risk, and you remain solely responsible for any financial decisions made when using this code.
 
 The code is organized in the `bot` package with the following modules:
 
