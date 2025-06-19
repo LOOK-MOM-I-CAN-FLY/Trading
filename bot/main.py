@@ -34,10 +34,20 @@ def backtest(config: Path = Path("config.yml")) -> None:
     settings = load_settings(config)
     df = pd.DataFrame()  # placeholder: load your historical data here
     backtester = Backtester(df)
-    backtester.run(lambda s: EMARsiStrategy(s), settings.trading_pairs[0])
-
-
-@app.command()
+        symbol = settings.trading_pairs[0]
+        while True:
+            ohlcv = await feed.fetch_ohlcv(symbol, "1m", limit=50)
+            if not ohlcv:
+                await asyncio.sleep(5)
+                continue
+            df = pd.DataFrame(
+                ohlcv, columns=["timestamp", "open", "high", "low", "close", "volume"]
+            )
+            strategy = EMAScalpingStrategy(symbol)
+                    await notifier.send(
+                        f"{signal.side} {signal.symbol} at {signal.price}"
+                    )
+            await asyncio.sleep(60)
 def run_live(config: Path = Path("config.yml")) -> None:
     settings = load_settings(config)
     feed = CCXTDataFeed(settings.exchange.name)

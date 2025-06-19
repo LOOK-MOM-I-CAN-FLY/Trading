@@ -1,0 +1,7 @@
+pandas
+pandas-ta
+aiohttp
+ccxt
+typer
+python-dotenv
+pyyaml
